@@ -7,12 +7,11 @@ The back-end for the SaaS platform
   Rails: `6.0.0`
 
 * System dependencies
-  `Database to be confirmed`
+  `MySQL`
 
 * Configuration
   ```
   cp config/samples/local_env.yml config
-  cp config/samples/storage.yml config
   ```
   Update `config/local_env.yml` with your corresponding values
 
