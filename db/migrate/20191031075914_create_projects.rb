@@ -4,6 +4,7 @@ class CreateProjects < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :repository_link
       t.string :production_url
+      t.boolean :deleted, default: false
 
       t.timestamps
     end
