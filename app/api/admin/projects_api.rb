@@ -78,7 +78,7 @@ module Admin
         end
         delete do
           project = Project.find(params[:id])
-          project.destroy # TODO: Add state: cancelled
+          project.update!(deleted: true)
           status :no_content
         end
       end
