@@ -37,13 +37,13 @@ module Admin
         desc 'Get project' do
           tags %w[projects]
           http_codes [
-            { code: 200, model: Entities::Project, message: 'Project data' },
+            { code: 200, model: Entities::FullProject, message: 'Project data' },
             { code: 404, message: 'Project not found' }
           ]
         end
         get do
           project = Project.find(params[:id])
-          present project, with: Entities::Project
+          present project, with: Entities::FullProject
         end
 
         desc 'Update project' do

@@ -11,6 +11,8 @@ module Admin
     end
 
     mount ProjectsApi
+    mount ScenariosApi
+    # mount EventsApi
 
     add_swagger_documentation(
       format: :json,
