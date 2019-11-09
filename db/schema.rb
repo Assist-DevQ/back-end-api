@@ -14,8 +14,8 @@ ActiveRecord::Schema.define(version: 2019_11_05_153939) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.text "data"
-    t.string "time"
+    t.json "data"
+    t.bigint "time"
     t.bigint "scenario_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
