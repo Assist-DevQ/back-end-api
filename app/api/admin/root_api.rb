@@ -12,13 +12,12 @@ module Admin
 
     mount ProjectsApi
     mount ScenariosApi
-    # mount EventsApi
 
     add_swagger_documentation(
       format: :json,
       base_path: '/admin/api/v1',
       mount_path: 'docs',
-      info: { title: 'DevQ administration API docs' },
+      info: { title: 'DevQ Administration API docs' },
       models: [],
       array_use_braces: true,
       add_root: true
