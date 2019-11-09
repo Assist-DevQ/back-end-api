@@ -1,18 +1,37 @@
 module Extension
   class EventsApi < Grape::API
-    params do
-      with(documentation: { in: 'query' }) do
-        requires :scenario_id, type: Integer, allow_blank: false
+    helpers do
+      def current_scenario
+        Scenario.find(params.fetch(:scenario_id))
       end
     end
 
-    resource :events do
-      helpers do
-        def current_scenario
-          Scenario.find(params.fetch(:scenario_id))
+    # https://developers.google.com/gmail/api/guides/batch
+    desc 'Batch events creation' do
+      tags %w[events]
+      http_codes [
+        { code: 200, message: 'Events successfully created' },
+        { code: 400, message: 'Parameters are invalid' }
+      ]    end
+    params do
+      with(documentation: { in: 'body' }) do
+        requires :scenario_id, type: Integer, allow_blank: false
+        requires :events, type: Array do
+          with(allow_blank: false) do
+            requires :name, type: String
+            requires :data, type: JSON
+            requires :time, type: Integer
+          end
         end
       end
+    end
+    post 'batch/events' do
+      events = params[:events].each {|ev| ev[:scenario_id] = params[:scenario_id] }
+      Event.insert_all!(params[:events])
+      status :ok
+    end
 
+    resource :events do
       desc 'Create event' do
         tags %w[events]
         http_codes [
@@ -22,6 +41,7 @@ module Extension
       end
       params do
         with(documentation: { in: 'body' }) do
+          requires :scenario_id, type: Integer, allow_blank: false
           requires :event, type: Hash do
             with(allow_blank: false) do
               requires :name, type: String

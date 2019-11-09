@@ -5,8 +5,6 @@ class CreateEvents < ActiveRecord::Migration[6.0]
       t.json :data
       t.bigint :time
       t.references :scenario, null: false, foreign_key: true
-
-      t.timestamps
     end
   end
 end
