@@ -1,14 +1,14 @@
 module Admin
   module Entities
-    class Scenario < Grape::Entity
-      root :scenarios, :scenario
-
-      expose :id, documentation: { type: Integer }
-      expose :name
+    class Event < Common::Entities::Event
     end
 
-    # class Event < Event
-    # end
+    class Scenario < Common::Entities::Scenario
+    end
+
+    class FullScenario < Scenario
+      expose :events, using: Event, documentation: { is_array: true }
+    end
 
     class Project < Grape::Entity
       root :projects, :project
@@ -20,7 +20,7 @@ module Admin
     end
 
     class FullProject < Project
-    	expose :scenarios, using: Scenario
+      expose :scenarios, using: Scenario, documentation: { is_array: true }
     end
   end
 end
