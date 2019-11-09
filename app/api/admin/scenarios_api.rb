@@ -9,7 +9,7 @@ module Admin
     resource :scenarios do
       helpers do
         def current_project
-          Project.find_by(id: params.fetch(:project_id))
+          Project.find(params.fetch(:project_id))
         end
       end
 
@@ -43,17 +43,31 @@ module Admin
         present scenario, with: Entities::Scenario
       end
 
-      desc 'Delete scenario' do
-        tags %w[scenarios]
-        http_codes [
-          { code: 204, message: 'No content' },
-          { code: 404, message: 'Scenario not found' }
-        ]
-      end
-      delete do
-        scenario = Scenario.find(params[:id])
-        scenario.destroy
-        status :no_content
+      route_param :id do
+        desc 'Get scenario' do
+          tags %w[scenarios]
+          http_codes [
+            { code: 200, model: Entities::FullScenario, message: 'Scenario data' },
+            { code: 404, message: 'Scenario not found' }
+          ]
+        end
+        get do
+          scenario = current_project.scenarios.find(params[:id])
+          present scenario, with: Entities::FullScenario
+        end
+
+        desc 'Delete scenario' do
+          tags %w[scenarios]
+          http_codes [
+            { code: 204, message: 'No content' },
+            { code: 404, message: 'Scenario not found' }
+          ]
+        end
+        delete do
+          scenario = Scenario.find(params[:id])
+          scenario.destroy
+          status :no_content
+        end
       end
     end
   end
