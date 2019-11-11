@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2019_11_05_153939) do
     t.json "data"
     t.bigint "time"
     t.bigint "scenario_id", null: false
+    t.index ["scenario_id", "time"], name: "index_events_on_scenario_id_and_time", unique: true
     t.index ["scenario_id"], name: "index_events_on_scenario_id"
   end
 

@@ -6,5 +6,7 @@ class CreateEvents < ActiveRecord::Migration[6.0]
       t.bigint :time
       t.references :scenario, null: false, foreign_key: true
     end
+
+    add_index :events, [:scenario_id, :time], unique: true
   end
 end
