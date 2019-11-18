@@ -28,6 +28,7 @@ module Admin
           end
         end
       end
+
       post do
         project = Project.create!(params[:project])
         present project, with: Entities::Project

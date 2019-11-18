@@ -12,7 +12,8 @@ module Extension
       http_codes [
         { code: 200, message: 'Events successfully created' },
         { code: 400, message: 'Parameters are invalid' }
-      ]    end
+      ]
+    end
     params do
       with(documentation: { in: 'body' }) do
         requires :scenario_id, type: Integer, allow_blank: false
@@ -26,7 +27,7 @@ module Extension
       end
     end
     post 'batch/events' do
-      events = params[:events].each {|ev| ev[:scenario_id] = params[:scenario_id] }
+      events = params[:events].each { |ev| ev[:scenario_id] = params[:scenario_id] }
       Event.insert_all!(params[:events])
       status :ok
     end
