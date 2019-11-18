@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_153939) do
+ActiveRecord::Schema.define(version: 2019_11_18_200509) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.json "data"
-    t.bigint "time"
+    t.text "data"
+    t.string "time"
     t.bigint "scenario_id", null: false
-    t.index ["scenario_id", "time"], name: "index_events_on_scenario_id_and_time", unique: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["scenario_id"], name: "index_events_on_scenario_id"
   end
 
@@ -28,6 +29,8 @@ ActiveRecord::Schema.define(version: 2019_11_05_153939) do
     t.boolean "deleted", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "user"
+    t.string "repository_name"
   end
 
   create_table "scenarios", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
