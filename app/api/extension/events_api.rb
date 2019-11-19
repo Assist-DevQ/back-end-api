@@ -28,7 +28,7 @@ module Extension
     end
     post 'batch/events' do
       events = params[:events].each { |ev| ev[:scenario_id] = params[:scenario_id] }
-      Event.insert_all!(params[:events])
+      Event.insert_all!(events)
       status :ok
     end
 
