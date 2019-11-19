@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_200509) do
+
+ActiveRecord::Schema.define(version: 2019_11_19_205959) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_11_18_200509) do
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "images", default: "--- []\n"
     t.index ["project_id"], name: "index_scenarios_on_project_id"
   end
 

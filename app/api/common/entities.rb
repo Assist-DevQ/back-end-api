@@ -13,6 +13,7 @@ module Common
 
       expose :id, documentation: { type: Integer }
       expose :name
+      expose :images, documentation: { is_array: true }
     end
   end
 end
