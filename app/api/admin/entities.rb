@@ -17,6 +17,8 @@ module Admin
       expose :name
       expose :repository_link
       expose :production_url
+      expose :user_repo
+      expose :repository_name
     end
 
     class FullProject < Project
