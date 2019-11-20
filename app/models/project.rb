@@ -8,8 +8,6 @@ class Project < ApplicationRecord
   private
 
   def extract_github_user_and_repo
-    parsed_repo_url = repository_link.split('/').last(2)
-    self.user_repo = parsed_repo_url.first
-    self.repository_name = parsed_repo_url.last
+    self.user_repo, self.repository_name = repository_link.split('/').last(2)
   end
 end
