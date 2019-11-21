@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2019_11_19_205959) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -39,6 +38,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_205959) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "images", default: "--- []\n"
+    t.string "commit_hash"
+    t.bigint "base_id"
+    t.index ["base_id"], name: "index_scenarios_on_base_id"
     t.index ["project_id"], name: "index_scenarios_on_project_id"
   end
 
