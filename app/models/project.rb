@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   before_save :extract_github_user_and_repo
 
   has_many :scenarios
+  has_many :branches
 
   private
 

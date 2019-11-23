@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  scenario: one
+  images_list: MyString
+  commit_hash: MyString
+  type: 1
+
+two:
+  scenario: two
+  images_list: MyString
+  commit_hash: MyString
+  type: 1
