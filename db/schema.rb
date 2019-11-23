@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_200509) do
+ActiveRecord::Schema.define(version: 2019_11_23_101745) do
+
+  create_table "branches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.bigint "project_id", null: false
+    t.string "current_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_branches_on_project_id"
+  end
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -32,6 +41,16 @@ ActiveRecord::Schema.define(version: 2019_11_18_200509) do
     t.string "repository_name"
   end
 
+  create_table "runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "scenario_id", null: false
+    t.string "images_list", default: "--- []\n"
+    t.string "commit_hash"
+    t.integer "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["scenario_id"], name: "index_runs_on_scenario_id"
+  end
+
   create_table "scenarios", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.bigint "project_id", null: false
@@ -40,6 +59,8 @@ ActiveRecord::Schema.define(version: 2019_11_18_200509) do
     t.index ["project_id"], name: "index_scenarios_on_project_id"
   end
 
+  add_foreign_key "branches", "projects"
   add_foreign_key "events", "scenarios"
+  add_foreign_key "runs", "scenarios"
   add_foreign_key "scenarios", "projects"
 end

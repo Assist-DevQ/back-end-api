@@ -1,0 +1,12 @@
+class CreateRuns < ActiveRecord::Migration[6.0]
+  def change
+    create_table :runs do |t|
+      t.references :scenario, null: false, foreign_key: true
+      t.string :images_list, default: [].to_yaml
+      t.string :commit_hash
+      t.integer :type
+
+      t.timestamps
+    end
+  end
+end
