@@ -10,6 +10,7 @@ module Extension
       ENV['SWAGGER_USERNAME'] == username && ENV['SWAGGER_PASSWORD'] == password
     end
 
+    mount ProjectsApi
     mount ScenariosApi
     mount EventsApi
 
