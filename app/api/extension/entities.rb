@@ -5,5 +5,8 @@ module Extension
 
     class Scenario < Common::Entities::Scenario
     end
+
+    class Project < Common::Entities::Project
+    end
   end
 end

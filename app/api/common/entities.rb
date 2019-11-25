@@ -14,5 +14,16 @@ module Common
       expose :id, documentation: { type: Integer }
       expose :name
     end
+
+    class Project < Grape::Entity
+      root :projects, :project
+
+      expose :id, documentation: { type: Integer }
+      expose :name
+      expose :repository_link
+      expose :production_url
+      expose :user_repo
+      expose :repository_name
+    end
   end
 end
