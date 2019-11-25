@@ -10,15 +10,7 @@ module Admin
       expose :events, using: Event, documentation: { is_array: true }
     end
 
-    class Project < Grape::Entity
-      root :projects, :project
-
-      expose :id, documentation: { type: Integer }
-      expose :name
-      expose :repository_link
-      expose :production_url
-      expose :user_repo
-      expose :repository_name
+    class Project < Common::Entities::Project
     end
 
     class FullProject < Project
