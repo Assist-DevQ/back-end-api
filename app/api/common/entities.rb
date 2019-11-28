@@ -1,11 +1,28 @@
 module Common
   module Entities
+    class Branch < Grape::Entity
+      root :branches, :branch
+
+      expose :id, documentation: { type: Integer }
+      expose :name
+      expose :current_hash
+    end
+
     class Event < Grape::Entity
       root :events, :event
 
       expose :id, documentation: { type: Integer }
       expose :data, documentation: { type: Hash }
       expose :time, documentation: { type: Integer }
+    end
+
+    class Run < Grape::Entity
+      root :runs, :run
+
+      expose :id, documentation: { type: Integer }
+      expose :commit_hash
+      expose :images_list, documentation: { type: Array }
+      expose :type, documentation: { values: ::Run.types.keys }
     end
 
     class Scenario < Grape::Entity
