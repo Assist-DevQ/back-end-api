@@ -7,5 +7,7 @@ class CreateBranches < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_index :branches, [:project_id, :name]
   end
 end
