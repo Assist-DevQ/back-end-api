@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2019_11_23_101745) do
     t.string "current_hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id", "name"], name: "index_branches_on_project_id_and_name"
+    t.index ["project_id", "name"], name: "index_branches_on_project_id_and_name", unique: true
     t.index ["project_id"], name: "index_branches_on_project_id"
   end
 
