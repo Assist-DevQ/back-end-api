@@ -40,6 +40,8 @@ module Admin
       end
       post do
         scenario = current_project.scenarios.create!(params[:scenario])
+        # TODO: Call chrome extension to register events for this scenario - any URL?
+        # TODO: Register baseline run for master branch
         present scenario, with: Entities::Scenario
       end
 
@@ -52,7 +54,7 @@ module Admin
           ]
         end
         get do
-          scenario = current_project.scenarios.find(params[:id])
+          scenario = current_project.scenarios.includes(:runs).find(params[:id])
           present scenario, with: Entities::FullScenario
         end
 
