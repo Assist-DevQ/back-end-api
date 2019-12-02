@@ -12,6 +12,7 @@ module Common
       root :events, :event
 
       expose :id, documentation: { type: Integer }
+      expose :name
       expose :data, documentation: { type: Hash }
       expose :time, documentation: { type: Integer }
     end

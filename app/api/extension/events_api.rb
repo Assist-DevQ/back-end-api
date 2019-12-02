@@ -27,6 +27,7 @@ module Extension
       end
     end
     post 'batch/events' do
+      current_scenario.events.destroy_all
       events = params[:events].each { |ev| ev[:scenario_id] = params[:scenario_id] }
       Event.insert_all!(events)
       status :ok
