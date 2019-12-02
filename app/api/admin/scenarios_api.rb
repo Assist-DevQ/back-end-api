@@ -53,8 +53,17 @@ module Admin
             { code: 404, message: 'Scenario not found' }
           ]
         end
+        params do
+          with(documentation: { in: 'query' }) do
+            requires :commit_hash, type: String, allow_blank: false
+          end
+        end
+
         get do
-          scenario = current_project.scenarios.includes(:runs).find(params[:id])
+          scenario = current_project.scenarios
+            .includes(:runs)
+            .where(runs: {commit_hash: params[:commit_hash]})
+            .find(params[:id])
           present scenario, with: Entities::FullScenario
         end
 
