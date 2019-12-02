@@ -20,7 +20,6 @@ module Common
     class Run < Grape::Entity
       root :runs, :run
 
-      expose :id, documentation: { type: Integer }
       expose :commit_hash
       expose :images_list, documentation: { type: Array }
       expose :type, documentation: { values: ::Run.types.keys }
