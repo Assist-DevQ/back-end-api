@@ -62,12 +62,14 @@ class GithubPayloadProcessor
   end
 
   def process_opened_pr
-    Branch.create!(
+    proj = project
+    branch = Branch.create!(
       name: branch_name,
-      project: project,
+      project: proj,
       current_hash: head_current_hash
     )
     # notify Andrei to create runs
+    RunsCreation.new(proj, 'master', branch.name)
   end
 
   def process_closed_pr

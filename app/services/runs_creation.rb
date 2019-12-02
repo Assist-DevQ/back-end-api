@@ -1,0 +1,69 @@
+class RunsCreation
+  DEVQ_SCREENSHOT_URL = 'http://fa1cb890.ngrok.io/generate'.freeze
+
+  def initialize(project, base_branch, compare_branch)
+    @project = project
+    @base_branch = base_branch
+    @compare_branch = compare_branch
+  end
+
+  def call
+    process_response
+  end
+
+  private
+
+  attr_reader :project, :base_branch, :compare_branch
+
+  def params
+    {
+      "projectId": project.id,
+      "user": project.user_repo,
+      "repo": project.repository_name,
+      "baseBranch": base_branch,
+      "compareBranch": compare_branch
+    }
+  end
+
+  def generate_screens
+    uri = URI.parse(DEVQ_SCREENSHOT_URL)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = false
+    request = Net::HTTP::Post.new(
+      uri.path,
+      'Content-Type' => 'application/json;charset=utf-8'
+    )
+    request.body = params.to_json
+    response_body = http.request(request).body
+    JSON.parse(response_body)
+  end
+
+  def process_response
+    generate_screens['files'].each do |file_with_info|
+      commit_hash = file_with_info.dig('meta', 'commitId')
+      scenario_id = file_with_info.dig('meta', 'scenarioId')
+      base_images = []
+      compare_images = []
+
+      file_with_info['files'].each do |file|
+        base_images << file['baseFileUrl']
+        compare_images << file['compareFileUrl']
+      end
+
+      ApplicationRecord.transaction do
+        Run.create!(
+          scenario_id: scenario_id,
+          commit_hash: commit_hash,
+          type: 'baseline',
+          images_list: base_images
+        )
+        Run.create!(
+          scenario_id: scenario_id,
+          commit_hash: commit_hash,
+          type: 'diff',
+          images_list: compare_images
+        )
+      end
+    end
+  end
+end
