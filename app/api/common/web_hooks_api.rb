@@ -9,11 +9,12 @@ module Common
     post do
       event_type = request.headers['X-Github-Event']
       payload = JSON.parse(request.body.string)
-      if GithubPayloadProcessor.new(event_type, payload).call == :invalid
-        status :bad_request
-      else
-        status :created
-      end
+      GithubPayloadProcessor.new(event_type, payload).call
+      # if GithubPayloadProcessor.new(event_type, payload).call == :invalid
+      #   status :bad_request
+      # else
+      #   status :created
+      # end
     end
   end
 end

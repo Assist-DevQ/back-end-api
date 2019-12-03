@@ -1,5 +1,5 @@
 class RunsCreation
-  DEVQ_SCREENSHOT_URL = 'http://3fd10c9e.ngrok.io/generate'.freeze
+  DEVQ_SCREENSHOT_URL = 'http://5b8f7cb8.ngrok.io/api/v1/generate'.freeze
 
   def initialize(project, base_branch, diff_branch)
     @project = project
@@ -39,6 +39,8 @@ class RunsCreation
   end
 
   def process_response
+    return unless generate_screens['files']
+
     generate_screens['files'].each do |file_with_info|
       base_commit_hash = file_with_info.dig('meta', 'commitId')
       diff_commit_hash = file_with_info.dig('meta', 'diffCommitId')
@@ -54,14 +56,14 @@ class RunsCreation
       end
 
       ApplicationRecord.transaction do
-        Run.create!(
+        Run.find_or_create_by!(
           scenario_id: scenario_id,
           commit_hash: base_commit_hash,
           type: 'baseline',
           images_list: base_images,
           has_diff: has_diff
         )
-        Run.create!(
+        Run.find_or_create_by!(
           scenario_id: scenario_id,
           commit_hash: diff_commit_hash,
           type: 'diff',
