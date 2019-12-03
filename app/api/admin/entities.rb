@@ -12,8 +12,12 @@ module Admin
     class Scenario < Common::Entities::Scenario
     end
 
-    class FullScenario < Scenario
+    class ScenarioRuns < Scenario
       expose :runs, using: Run, documentation: { is_array: true }
+    end
+
+    class ScenarioEvents < Scenario
+      expose :events, using: Event, documentation: { is_array: true }
     end
 
     class Project < Common::Entities::Project
