@@ -49,7 +49,7 @@ module Admin
         desc 'Get scenario' do
           tags %w[scenarios]
           http_codes [
-            { code: 200, model: Entities::FullScenario, message: 'Scenario data' },
+            { code: 200, model: Entities::ScenarioRuns, message: 'Scenario runs data' },
             { code: 404, message: 'Scenario not found' }
           ]
         end
@@ -64,7 +64,19 @@ module Admin
             .includes(:runs)
             .where(runs: {commit_hash: params[:commit_hash]})
             .find(params[:id])
-          present scenario, with: Entities::FullScenario
+          present scenario, with: Entities::ScenarioRuns
+        end
+
+        desc "Get scenario's events" do
+          tags %w[scenarios]
+          http_codes [
+            { code: 200, model: Entities::ScenarioEvents, message: 'Scenario events data' },
+            { code: 404, message: 'Scenario not found' }
+          ]
+        end
+        get :events do
+          scenario = current_project.scenarios.includes(:events).find(params[:id])
+          present scenario, with: Entities::ScenarioEvents
         end
 
         desc 'Delete scenario' do
