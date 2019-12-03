@@ -22,6 +22,7 @@ module Common
 
       expose :commit_hash
       expose :images_list, documentation: { type: Array }
+      expose :has_diff, documentation: { type: Array }
       expose :type, documentation: { values: ::Run.types.keys }
     end
 
