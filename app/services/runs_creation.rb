@@ -1,10 +1,10 @@
 class RunsCreation
-  DEVQ_SCREENSHOT_URL = 'http://fa1cb890.ngrok.io/generate'.freeze
+  DEVQ_SCREENSHOT_URL = 'http://3fd10c9e.ngrok.io/generate'.freeze
 
-  def initialize(project, base_branch, compare_branch)
+  def initialize(project, base_branch, diff_branch)
     @project = project
     @base_branch = base_branch
-    @compare_branch = compare_branch
+    @diff_branch = diff_branch
   end
 
   def call
@@ -13,7 +13,7 @@ class RunsCreation
 
   private
 
-  attr_reader :project, :base_branch, :compare_branch
+  attr_reader :project, :base_branch, :diff_branch
 
   def params
     {
@@ -21,7 +21,7 @@ class RunsCreation
       "user": project.user_repo,
       "repo": project.repository_name,
       "baseBranch": base_branch,
-      "compareBranch": compare_branch
+      "diffBranch": diff_branch
     }
   end
 
@@ -40,28 +40,33 @@ class RunsCreation
 
   def process_response
     generate_screens['files'].each do |file_with_info|
-      commit_hash = file_with_info.dig('meta', 'commitId')
+      base_commit_hash = file_with_info.dig('meta', 'commitId')
+      diff_commit_hash = file_with_info.dig('meta', 'diffCommitId')
       scenario_id = file_with_info.dig('meta', 'scenarioId')
       base_images = []
       compare_images = []
+      has_diff = []
 
       file_with_info['files'].each do |file|
         base_images << file['baseFileUrl']
-        compare_images << file['compareFileUrl']
+        compare_images << file['diffFileUrl']
+        has_diff << file['hasDiff']
       end
 
       ApplicationRecord.transaction do
         Run.create!(
           scenario_id: scenario_id,
-          commit_hash: commit_hash,
+          commit_hash: base_commit_hash,
           type: 'baseline',
-          images_list: base_images
+          images_list: base_images,
+          has_diff: has_diff
         )
         Run.create!(
           scenario_id: scenario_id,
-          commit_hash: commit_hash,
+          commit_hash: diff_commit_hash,
           type: 'diff',
-          images_list: compare_images
+          images_list: compare_images,
+          has_diff: has_diff
         )
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_172037) do
+ActiveRecord::Schema.define(version: 2019_12_03_171954) do
 
   create_table "branches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_172037) do
     t.integer "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "has_diff", default: "--- []\n"
     t.index ["scenario_id", "commit_hash", "type"], name: "index_runs_on_scenario_id_and_commit_hash_and_type", unique: true
     t.index ["scenario_id"], name: "index_runs_on_scenario_id"
   end
