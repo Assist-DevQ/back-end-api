@@ -8,6 +8,6 @@ class Branch < ApplicationRecord
   private
 
   def short_hash_commit
-    self.current_hash = current_hash[0..6]
+    self.current_hash = current_hash.to_s[0..6]
   end
 end

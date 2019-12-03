@@ -63,13 +63,13 @@ class GithubPayloadProcessor
 
   def process_opened_pr
     proj = project
-    branch = Branch.create!(
+    branch = Branch.find_or_create_by(
       name: branch_name,
       project: proj,
       current_hash: head_current_hash
     )
     # notify Andrei to create runs
-    RunsCreation.new(proj, 'master', branch.name)
+    RunsCreation.new(proj, 'master', branch.name).call
   end
 
   def process_closed_pr
@@ -77,8 +77,8 @@ class GithubPayloadProcessor
     merged_branch = Branch.find_by(name: branch_name, project: project)
     merged_branch.destroy
     # update master branch current_hash
-    base_branch = Branch.find_by(name: 'master', project: project)
-    base_branch.update!(current_hash: merge_commit_hash)
+    # base_branch = Branch.find_by(name: 'master', project: project)
+    # base_branch.update!(current_hash: merge_commit_hash)
     # update runs baseline
     # drop runs - test & diff ?
   end
