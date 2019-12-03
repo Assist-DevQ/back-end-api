@@ -44,12 +44,12 @@ ActiveRecord::Schema.define(version: 2019_12_03_171954) do
 
   create_table "runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "scenario_id", null: false
-    t.string "images_list", default: "--- []\n"
+    t.text "images_list"
     t.string "commit_hash"
     t.integer "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "has_diff", default: "--- []\n"
+    t.text "has_diff"
     t.index ["scenario_id", "commit_hash", "type"], name: "index_runs_on_scenario_id_and_commit_hash_and_type", unique: true
     t.index ["scenario_id"], name: "index_runs_on_scenario_id"
   end
