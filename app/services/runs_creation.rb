@@ -54,6 +54,7 @@ class RunsCreation
         compare_images << file['diffFileUrl']
         has_diff << file['hasDiff']
       end
+      base_diff = [false] * has_diff.size
 
       ApplicationRecord.transaction do
         Run.find_or_create_by!(
@@ -61,7 +62,7 @@ class RunsCreation
           commit_hash: base_commit_hash,
           type: 'baseline',
           images_list: base_images,
-          has_diff: has_diff
+          has_diff: base_diff
         )
         Run.find_or_create_by!(
           scenario_id: scenario_id,
