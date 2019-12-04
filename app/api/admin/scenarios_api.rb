@@ -62,7 +62,8 @@ module Admin
         get do
           scenario = current_project.scenarios
             .includes(:runs)
-            .where(runs: {commit_hash: params[:commit_hash]})
+            .where('runs.commit_hash = ? OR runs.type = ?', params[:commit_hash], 'baseline')
+            .references(:runs)
             .find(params[:id])
           present scenario, with: Entities::ScenarioRuns
         end
